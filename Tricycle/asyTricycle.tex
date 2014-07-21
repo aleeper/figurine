@@ -18,14 +18,19 @@ currentprojection=perspective( (15, 10,5 ), up=Z );
 // showtarget=true, autoadjust=true, center=true );
 
 // Construct the scene...
-Node scene = Node( "root", null );
+Node scene = Node( "root" );
 
 // N frame
-Node frameN = Node( "N", scene );
+Node frameN = Node( "N" );
 scene.addChild(frameN);
 frameN.addChild(createBasis("basisN", 1));
+//path rampProfile = (0,0,0)..(2,0,0)..(0,1,0)..cycle;
+path3 rampProfile = (0,0,0)--(3,0,0)--(0,0,1)--cycle; // -- is straight lines, .. is splines
+surface ramp = extrude(rampProfile, Y);
+frameN.addRenderable(Renderable(ramp, mWhite));
+frameN.addRenderable(Renderable(surface(patch(rampProfile));
 
-Node frameA = Node( "A", frameN );
+Node frameA = Node( "A" );
 frameN.addChild(frameA);
 frameA.addChild(createBasis("basisA", 1));
 frameA.rotation = rotate(-30, Z);

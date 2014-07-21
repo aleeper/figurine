@@ -1,6 +1,9 @@
+
+// A drawable object
 struct Renderable {
-	surface surf;
-	material mat;
+
+	surface surf; // surface geometry
+	material mat; // material
 	
 	void operator init(surface s, material m) 
 	{
@@ -29,7 +32,6 @@ struct Node {
 	
 	void addChild(Node child)
 	{
-		// TODO remove old parent?
 		child.parent = this;
 		this.children.push(child);
 	}
@@ -78,18 +80,17 @@ struct Node {
 		}
 	}
 	
-	void operator init(string name, Node parent) 
+	void operator init(string name) 
 	{
 		this.name = name;
-		this.parent = parent;
-		if(parent != null)
-			parent.addChild(this);
+		this.parent = null;
+		//if(parent != null)
+		//	parent.addChild(this);
 		
 		// Set defaults for transform
 		this.translation = shift(0,0,0);
 		this.rotation = rotate(0, X);
 		this.scaling = scale3(1);
-		//this.rParent = rParent;
 	}
 }
 
@@ -105,7 +106,7 @@ struct Node {
 Node createBasis(string name, real length) 
 {
 	write("Creating basis "+name+".");
-	Node n = Node(name, null);
+	Node n = Node(name);
 	//n.addChild(createVector());
 	n.addRenderable( Renderable(rotate(90,Y)*scale(0.1,0.1,1)*unitcylinder, mRed));
 	n.addRenderable( Renderable(rotate(-90, X)*scale(0.1,0.1,1)*unitcylinder, mGreen));
